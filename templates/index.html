@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skin Cancer Detection</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+        <h1><i class="fas fa-microscope"></i> Skin Cancer Detection</h1>
+        <p class="subtitle">Powered by Conformal Prediction & Deep Learning</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+        <div class="card">
+            <div class="card-header">
+            <h2 class="card-title"><i class="fas fa-upload"></i> Upload Skin Lesion Image</h2>
+            <p>Upload a clear image of the skin lesion for analysis</p>
+            </div>
+
+            <div class="upload-area">
+            <i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color: var(--primary);"></i>
+            <p class="upload-text">Choose your image</p>
+            <input type="file" name="image" id="file-upload" accept="image/png, image/jpeg" required onchange="previewFile()">
+            <p class="upload-note">Supported formats: JPG, JPEG, PNG</p>
+            </div>
+
+            <div class="preview-container">
+            <p class="preview-label">Image Preview</p>
+            <img id="image-preview" class="image-preview" src="#" alt="Image Preview" style="display:none;">
+            </div>
+
+            <div class="btn-container">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Analyze Image
+            </button>
+            </div>
+        </div>
+        </form>
+    </div>
+
+    <div class="skin-types-container">
+        <h2>Các loại tổn thương da</h2>
+        <div class="skin-type">
+            <p><strong>nv</strong> (<span class="blue">U hắc tố lành tính - Melanocytic nevi</span>)<br>
+            ↳ Là sự phát triển lành tính của tế bào hắc tố. Có nhiều biến thể và hình thái khác nhau khi quan sát qua kính soi da.
+            </p>
+        </div>
+
+        <div class="skin-type">
+            <p><strong>mel</strong> (<span class="blue">U hắc tố ác tính - Melanoma</span>)<br>
+            ↳ Là một dạng ung thư da nguy hiểm. Nếu được phát hiện sớm, có thể điều trị khỏi bằng phẫu thuật cắt bỏ. Bao gồm các loại melanoma xâm lấn và tại chỗ.
+            </p>
+        </div>
+
+        <div class="skin-type">
+            <p><strong>bkl</strong> (<span class="blue">Dày sừng lành tính - Benign keratosis-like lesions</span>)<br>
+            ↳ Bao gồm các loại như dày sừng tiết bã (seborrheic keratoses), lentigo do ánh nắng và tổn thương dạng lichen-planus. Nhóm này có thể gây nhầm lẫn với melanoma.
+            </p>
+        </div>
+
+        <div class="skin-type">
+            <p><strong>bcc</strong> (<span class="blue">Ung thư biểu mô tế bào đáy - Basal cell carcinoma</span>)<br>
+            ↳ Là loại ung thư da phổ biến, thường không di căn nhưng có thể phát triển xâm lấn. Có nhiều hình thái khác nhau như phẳng, có sắc tố, dạng nốt,...
+            </p>
+        </div>
+
+        <div class="skin-type">
+            <p><strong>akiec</strong> (<span class="blue">Dày sừng quang hóa và ung thư biểu mô tế bào vảy tại chỗ - Actinic keratoses & Intraepithelial Carcinoma</span>)<br>
+            ↳ Là các tổn thương tiền ung thư hoặc ung thư da không xâm lấn, có thể điều trị tại chỗ. Có thể tiến triển thành ung thư biểu mô tế bào vảy xâm lấn.
+            </p>
+        </div>
+
+        <div class="skin-type">
+            <p><strong>vasc</strong> (<span class="blue">Tổn thương da liên quan tới mạch máu - Vascular lesions</span>)<br>
+            ↳ Bao gồm các tổn thương như u mao mạch anh đào, u mạch da và xuất huyết dưới da.
+            </p>
+        </div>
+
+        <div class="skin-type">
+            <p><strong>df</strong> (<span class="blue">U xơ da - Dermatofibroma</span>)<br>
+            ↳ Là u lành tính, thường là phản ứng viêm sau chấn thương nhẹ. Thường có màu nâu và vùng xơ hóa ở trung tâm khi soi da.
+            </p>
+        </div>
+    </div>
+    <div class="info-section">
+        <h3>Hạn chế</h3>
+        <p>
+            Mô hình AI sử dụng trong ứng dụng chưa đủ mạnh để luôn xếp đúng tổn thương vào vị trí cao nhất. 
+            Đặc biệt, mô hình chưa nhạy trong phát hiện melanoma. Tuy nhiên, trong quá trình kiểm thử, tổn thương đúng thường nằm trong top 3 dự đoán.
+        </p>
+        <p>
+            Mô hình được huấn luyện bằng ảnh từ thiết bị chuyên dụng, không phải ảnh chụp từ điện thoại. Do đó, chất lượng ảnh đầu vào có thể ảnh hưởng đến kết quả dự đoán.
+        </p>
+    </div>
+
+    <div class="info-section">
+        <h3>Giấy phép dữ liệu</h3>
+        <p>
+            Mô hình được huấn luyện dựa trên bộ dữ liệu hình ảnh 
+            ‘<a href="https://www.kaggle.com/datasets/kmader/skin-cancer-mnist-ham10000" target="_blank">
+            Skin Cancer MNIST: HAM10000</a>’ 
+            được cấp phép theo CC BY-NC-SA 4.0. Ứng dụng này không sử dụng vào mục đích thương mại.
+        </p>
+    </div>    
+    <footer>
+        <div class="container">
+        <p>© 2025 Skin Cancer Detection System</p>
+        <p class="disclaimer">
+            Đồ án được thực hiện bởi nhóm sinh viên <strong>Trần Phan Quốc - Trần Trọng Thoại</strong>
+            dưới sự hướng dẫn của giảng viên <strong>Th.S Quách Đình Hoàng</strong>.
+        </p>
+        </div>
+    </footer>
+
+    <script>
+        function previewFile() {
+        const preview = document.getElementById('image-preview');
+        const file = document.getElementById('file-upload').files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            preview.src = reader.result;
+            preview.style.display = 'block';
+        };
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+        }
+    </script>
+</body>
+</html>

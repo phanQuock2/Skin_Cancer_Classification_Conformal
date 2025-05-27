@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-chart-line"></i> Analysis Result</h1>
+            <p class="subtitle">AI-powered prediction with 95% confidence</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <div class="preview-container">
+                <h3 class="preview-label">Uploaded Image</h3>
+                <img 
+                    src="{{ image_path }}" alt="Uploaded Image" style="max-width: 400px;"
+                    class="image-preview" 
+                    alt="Uploaded Image"
+                >
+            </div>
+
+            <h3 class="result-title">Prediction Probabilities from ICP:</h3>
+            {% for label, prob in top3_probs %}
+                <div class="prediction-item">
+                    <div class="prediction-label">{{ label.upper() }}</div>
+                    <div class="prediction-confidence">{{ "%.2f"|format(prob * 100) }}%</div>
+                </div>
+            {% endfor %}
+
+            <div class="btn-container">
+                <a href="/" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Try Another</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="skin-types-container">
+        <h2>Các loại tổn thương da</h2>
+        <div class="skin-type">
+            <p><strong>nv</strong> (<span class="blue">U hắc tố lành tính - Melanocytic nevi</span>)<br>
+            ↳ Là sự phát triển lành tính của tế bào hắc tố. Có nhiều biến thể và hình thái khác nhau khi quan sát qua kính soi da.
+            </p>
+        </div>
+
+        <div class="skin-type">
+            <p><strong>mel</strong> (<span class="blue">U hắc tố ác tính - Melanoma</span>)<br>
+            ↳ Là một dạng ung thư da nguy hiểm. Nếu được phát hiện sớm, có thể điều trị khỏi bằng phẫu thuật cắt bỏ. Bao gồm các loại melanoma xâm lấn và tại chỗ.
+            </p>
+        </div>
+
+        <div class="skin-type">
+            <p><strong>bkl</strong> (<span class="blue">Dày sừng lành tính - Benign keratosis-like lesions</span>)<br>
+            ↳ Bao gồm các loại như dày sừng tiết bã (seborrheic keratoses), lentigo do ánh nắng và tổn thương dạng lichen-planus. Nhóm này có thể gây nhầm lẫn với melanoma.
+            </p>
+        </div>
+
+        <div class="skin-type">
+            <p><strong>bcc</strong> (<span class="blue">Ung thư biểu mô tế bào đáy - Basal cell carcinoma</span>)<br>
+            ↳ Là loại ung thư da phổ biến, thường không di căn nhưng có thể phát triển xâm lấn. Có nhiều hình thái khác nhau như phẳng, có sắc tố, dạng nốt,...
+            </p>
+        </div>
+
+        <div class="skin-type">
+            <p><strong>akiec</strong> (<span class="blue">Dày sừng quang hóa và ung thư biểu mô tế bào vảy tại chỗ - Actinic keratoses & Intraepithelial Carcinoma</span>)<br>
+            ↳ Là các tổn thương tiền ung thư hoặc ung thư da không xâm lấn, có thể điều trị tại chỗ. Có thể tiến triển thành ung thư biểu mô tế bào vảy xâm lấn.
+            </p>
+        </div>
+
+        <div class="skin-type">
+            <p><strong>vasc</strong> (<span class="blue">Tổn thương da liên quan tới mạch máu - Vascular lesions</span>)<br>
+            ↳ Bao gồm các tổn thương như u mao mạch anh đào, u mạch da và xuất huyết dưới da.
+            </p>
+        </div>
+
+        <div class="skin-type">
+            <p><strong>df</strong> (<span class="blue">U xơ da - Dermatofibroma</span>)<br>
+            ↳ Là u lành tính, thường là phản ứng viêm sau chấn thương nhẹ. Thường có màu nâu và vùng xơ hóa ở trung tâm khi soi da.
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Skin Cancer Detection System</p>
+            <p class="disclaimer">
+                Đồ án được thực hiện bởi nhóm sinh viên <strong>Trần Phan Quốc - Trần Trọng Thoại</strong>
+                dưới sự hướng dẫn của giảng viên <strong>Th.S Quách Đình Hoàng</strong>.
+            </p>
+        </div>
+    </footer>   
+</body>
+</html>
