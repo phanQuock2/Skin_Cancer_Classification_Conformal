@@ -25,6 +25,17 @@ model = load_model('model.h5', custom_objects={'top_2_accuracy': top_2_accuracy,
 
 class_labels = ['akiec', 'bcc', 'bkl', 'df', 'mel', 'nv', 'vasc'] 
 
+label_to_vietnamese = {
+    'nv': 'U hắc tố lành tính',
+    'mel': 'U hắc tố ác tính',
+    'bkl': 'Dày sừng lành tính',
+    'bcc': 'Ung thư biểu mô tế bào đáy',
+    'akiec': 'Dày sừng quang hóa / UTBM tế bào vảy tại chỗ',
+    'vasc': 'Tổn thương da mạch máu',
+    'df': 'U xơ da'
+}
+
+
 # Load ICP dữ liệu từ .npz
 icp_data = np.load("icp_data.npz", allow_pickle=True)
 scores = icp_data['scores']
@@ -74,11 +85,13 @@ def predict(filename):
     pred_probs = {class_labels[i]: float(probs[i]) for i in range(len(class_labels))}
 
     # Dự đoán tập nhãn đáng tin cậy bằng ICP (prediction set)
-    prediction_set_indices = icp.predict_batch(X, significance=0.05)[0]  # ví dụ: [0, 4, 6]
+    prediction_set_indices = icp.predict_batch(X, significance=0.1)[0]  # ví dụ: [0, 4, 6]
     prediction_set = {class_labels[i]: pred_probs[class_labels[i]] for i in prediction_set_indices}
 
     # Lấy Top 3 nhãn từ prediction set (xếp theo xác suất)
-    top3 = sorted(prediction_set.items(), key=lambda x: x[1], reverse=True)
+    top3_raw = sorted(prediction_set.items(), key=lambda x: x[1], reverse=True)
+    top3 = [(label_to_vietnamese[label.lower()], prob) for label, prob in top3_raw]
+
 
     return render_template('result.html',
                            image_path=image_path,

@@ -28,7 +28,7 @@
             <h3 class="result-title">Prediction Probabilities from ICP:</h3>
             {% for label, prob in top3_probs %}
                 <div class="prediction-item">
-                    <div class="prediction-label">{{ label.upper() }}</div>
+                    <div class="prediction-label">{{ label }}</div>
                     <div class="prediction-confidence">{{ "%.2f"|format(prob * 100) }}%</div>
                 </div>
             {% endfor %}
