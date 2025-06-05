@@ -26,7 +26,7 @@ model = load_model('model.h5', custom_objects={'top_2_accuracy': top_2_accuracy,
 class_labels = ['akiec', 'bcc', 'bkl', 'df', 'mel', 'nv', 'vasc'] 
 
 # Load ICP dữ liệu từ .npz
-icp_data = np.load("icp_data.npz", allow_pickle=True)
+icp_data = np.load("icp_eps_0.05.npz", allow_pickle=True)
 scores = icp_data['scores']
 threshold = float(icp_data['threshold'])
 n_classes = int(icp_data['n_classes'])
